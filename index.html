@@ -1,0 +1,2044 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>MOM'S 50TH BIRTHDAY | Momflix</title>
+  <meta name="description" content="Celebrating 50 incredible years of the most beautiful soul — MOMFLIX Original">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Anton&family=Inter:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,400&display=swap"
+    rel="stylesheet">
+  <style>
+    /* ============================================================
+   HOW TO ADD YOUR OWN PHOTOS & VIDEOS
+   ------------------------------------------------------------
+   1. Scroll down to the <script> section at the bottom of this
+      file and find "const ROWS = [...]".
+   2. Each card looks like:
+         { title: "Ep 1: The Meet Cute", year: "2022", caption: "How we met", image: null }
+   3. To add a photo: put your image file (e.g. "meetcute.jpg") in the
+      SAME FOLDER as this HTML file, then change:
+         image: null   -->   image: "meetcute.jpg"
+   4. To add a video instead of a photo, use:
+         video: "firstdate.mp4"
+   5. Also edit the CONFIG object right above ROWS to add your names,
+      hero photo/video, and anniversary date.
+   That's it — refresh the page and your memory will appear!
+   ============================================================ */
+
+    :root {
+      --bg: #0a0a0a;
+      --bg-elevated: #1a1a1a;
+      --bg-card: #141414;
+      --red: #E50914;
+      --red-dim: #B20710;
+      --red-glow: rgba(229, 9, 20, 0.4);
+      --gold: #f5c518;
+      --text: #FFFFFF;
+      --text-dim: #B3B3B3;
+      --text-mute: #5a5a5a;
+      --border: rgba(255, 255, 255, 0.08);
+      --glass: rgba(20, 20, 20, 0.85);
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'Inter', Helvetica, Arial, sans-serif;
+      overflow-x: hidden;
+    }
+
+    ::-webkit-scrollbar {
+      height: 6px;
+      width: 6px;
+    }
+
+    ::-webkit-scrollbar-thumb {
+      background: #333;
+      border-radius: 3px;
+    }
+
+    ::-webkit-scrollbar-track {
+      background: transparent;
+    }
+
+    /* ───────── WORDMARK ───────── */
+    .wordmark {
+      font-family: 'Anton', sans-serif;
+      letter-spacing: 2px;
+      color: var(--red);
+      text-transform: uppercase;
+      text-shadow: 0 0 20px var(--red-glow);
+    }
+
+    /* ───────── SPLASH ───────── */
+    #splash {
+      position: fixed;
+      inset: 0;
+      background: #000;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      z-index: 9999;
+      gap: 0;
+    }
+
+    #splash::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(ellipse at center, rgba(229, 9, 20, 0.12) 0%, transparent 70%);
+      pointer-events: none;
+    }
+
+    #splash .logo {
+      font-family: 'Anton', sans-serif;
+      font-size: clamp(4rem, 14vw, 12rem);
+      color: var(--red);
+      letter-spacing: 4px;
+      opacity: 0;
+      transform: scale(0.3);
+      text-shadow: 0 0 80px rgba(229, 9, 20, 0.8), 0 0 160px rgba(229, 9, 20, 0.3);
+      line-height: 1;
+    }
+
+    #splash.animate .logo {
+      animation: splashZoom 2.4s cubic-bezier(.16, 1, .3, 1) forwards;
+    }
+
+    #splash .tagline {
+      position: absolute;
+      bottom: 12%;
+      color: var(--text-dim);
+      font-size: 0.8rem;
+      letter-spacing: 5px;
+      text-transform: uppercase;
+      opacity: 0;
+      font-weight: 300;
+    }
+
+    #splash.animate .tagline {
+      animation: fadeUp 1s ease forwards 1.8s;
+    }
+
+    @keyframes splashZoom {
+      0% {
+        opacity: 0;
+        transform: scale(0.15);
+      }
+
+      40% {
+        opacity: 1;
+        transform: scale(1.08);
+      }
+
+      60% {
+        transform: scale(0.96);
+      }
+
+      80% {
+        transform: scale(1.02);
+      }
+
+      100% {
+        opacity: 1;
+        transform: scale(1);
+      }
+    }
+
+    @keyframes fadeUp {
+      from {
+        opacity: 0;
+        transform: translateY(16px);
+      }
+
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    #splash.hide {
+      animation: splashOut 0.7s ease forwards;
+      pointer-events: none;
+    }
+
+    @keyframes splashOut {
+      to {
+        opacity: 0;
+        visibility: hidden;
+      }
+    }
+
+    /* ───────── NAV ───────── */
+    header {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 22px 4%;
+      z-index: 100;
+      transition: background 0.4s ease, padding 0.3s ease, backdrop-filter 0.4s ease;
+      background: linear-gradient(180deg, rgba(0, 0, 0, 0.85) 0%, transparent 100%);
+    }
+
+    header.scrolled {
+      background: var(--glass);
+      backdrop-filter: blur(18px);
+      -webkit-backdrop-filter: blur(18px);
+      border-bottom: 1px solid var(--border);
+      padding: 12px 4%;
+    }
+
+    .nav-left {
+      display: flex;
+      align-items: center;
+      gap: 36px;
+    }
+
+    header .brand {
+      font-size: 2rem;
+    }
+
+    nav ul {
+      list-style: none;
+      display: flex;
+      gap: 24px;
+    }
+
+    nav a {
+      color: var(--text-dim);
+      text-decoration: none;
+      font-size: 0.85rem;
+      font-weight: 500;
+      letter-spacing: 0.3px;
+      transition: color 0.2s;
+      white-space: nowrap;
+      position: relative;
+    }
+
+    nav a::after {
+      content: '';
+      position: absolute;
+      bottom: -4px;
+      left: 0;
+      right: 0;
+      height: 2px;
+      background: var(--red);
+      transform: scaleX(0);
+      transition: transform 0.2s ease;
+      border-radius: 1px;
+    }
+
+    nav a:hover {
+      color: var(--text);
+    }
+
+    nav a:hover::after,
+    nav a.active::after {
+      transform: scaleX(1);
+    }
+
+    nav a.active {
+      color: var(--text);
+    }
+
+    .profile-icon {
+      width: 36px;
+      height: 36px;
+      border-radius: 8px;
+      background: linear-gradient(135deg, var(--red), #6b0000);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1rem;
+      cursor: pointer;
+      box-shadow: 0 0 16px var(--red-glow);
+      transition: transform 0.2s ease;
+    }
+
+    .profile-icon:hover {
+      transform: scale(1.1);
+    }
+
+    /* ───────── HERO ───────── */
+    .hero {
+      position: relative;
+      height: 100vh;
+      display: flex;
+      align-items: flex-end;
+      padding: 0 4% 7%;
+      overflow: hidden;
+    }
+
+    /* cinematic dark gradients over the video/image */
+    .hero::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background:
+        linear-gradient(180deg,
+          rgba(10, 10, 10, 0.55) 0%,
+          rgba(10, 10, 10, 0.0) 35%,
+          rgba(10, 10, 10, 0.0) 55%,
+          rgba(10, 10, 10, 0.92) 100%),
+        linear-gradient(90deg,
+          rgba(10, 10, 10, 0.88) 0%,
+          rgba(10, 10, 10, 0.3) 55%,
+          transparent 100%);
+      z-index: 1;
+      pointer-events: none;
+    }
+
+    .hero-media {
+      position: absolute;
+      inset: 0;
+      z-index: 0;
+      overflow: hidden;
+      background: #000;
+    }
+
+    /* hero video */
+    .hero-media video {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      opacity: 0;
+      transition: opacity 1.2s ease;
+    }
+
+    .hero-media video.loaded {
+      opacity: 1;
+    }
+
+    /* hero photo slideshow */
+    .hero-media .slide {
+      position: absolute;
+      inset: 0;
+      background-size: cover;
+      background-position: center top;
+      opacity: 0;
+      transition: opacity 1.4s ease;
+    }
+
+    .hero-media .slide.active {
+      opacity: 1;
+    }
+
+    .hero-content {
+      position: relative;
+      z-index: 2;
+      max-width: 680px;
+    }
+
+    .hero-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: var(--red);
+      color: #fff;
+      font-size: 0.72rem;
+      font-weight: 800;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      padding: 5px 12px;
+      border-radius: 2px;
+      margin-bottom: 18px;
+      box-shadow: 0 2px 16px var(--red-glow);
+    }
+
+    .hero h1 {
+      font-family: 'Anton', sans-serif;
+      font-size: clamp(3rem, 8vw, 6rem);
+      line-height: 0.93;
+      margin-bottom: 16px;
+      text-shadow: 2px 4px 24px rgba(0, 0, 0, 0.8);
+      letter-spacing: 2px;
+    }
+
+    .hero p {
+      color: rgba(255, 255, 255, 0.92);
+      font-size: 1rem;
+      line-height: 1.6;
+      margin-bottom: 24px;
+      text-shadow: 1px 2px 8px rgba(0, 0, 0, 0.9);
+      max-width: 500px;
+      font-weight: 400;
+    }
+
+    .hero-meta {
+      display: flex;
+      gap: 12px;
+      align-items: center;
+      color: var(--text-dim);
+      font-size: 0.85rem;
+      margin-bottom: 26px;
+      flex-wrap: wrap;
+    }
+
+    .hero-meta .pill {
+      border: 1.5px solid rgba(255, 255, 255, 0.35);
+      padding: 2px 10px;
+      border-radius: 3px;
+      font-size: 0.72rem;
+      font-weight: 600;
+      letter-spacing: 0.5px;
+    }
+
+    .hero-buttons {
+      display: flex;
+      gap: 12px;
+    }
+
+    .btn {
+      border: none;
+      border-radius: 4px;
+      padding: 13px 30px;
+      font-size: 1rem;
+      font-weight: 700;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 9px;
+      transition: transform 0.15s ease, filter 0.15s ease, box-shadow 0.15s ease;
+      letter-spacing: 0.3px;
+    }
+
+    .btn:hover {
+      transform: scale(1.04);
+    }
+
+    .btn:active {
+      transform: scale(0.97);
+    }
+
+    .btn-play {
+      background: #fff;
+      color: #000;
+      box-shadow: 0 4px 20px rgba(255, 255, 255, 0.15);
+    }
+
+    .btn-play:hover {
+      filter: brightness(0.9);
+    }
+
+    .btn-info {
+      background: rgba(109, 109, 110, 0.55);
+      color: #fff;
+      backdrop-filter: blur(8px);
+      border: 1px solid rgba(255, 255, 255, 0.15);
+    }
+
+    .btn-info:hover {
+      background: rgba(109, 109, 110, 0.75);
+    }
+
+    /* ───────── MAIN ROWS ───────── */
+    main {
+      position: relative;
+      z-index: 3;
+      padding-bottom: 80px;
+      background: linear-gradient(180deg, transparent 0%, var(--bg) 60px);
+    }
+
+    .row {
+      margin-bottom: 8px;
+    }
+
+    .row-header {
+      padding: 0 4%;
+      margin-bottom: 12px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .row h2 {
+      font-size: 1.2rem;
+      font-weight: 700;
+      letter-spacing: 0.3px;
+      color: var(--text);
+      transition: color 0.2s;
+      cursor: default;
+    }
+
+    .row-track {
+      display: flex;
+      gap: 5px;
+      overflow-x: auto;
+      padding: 8px 4% 14px;
+      scroll-snap-type: x proximity;
+      scrollbar-width: none;
+    }
+
+    .row-track::-webkit-scrollbar {
+      display: none;
+    }
+
+    /* ───────── CARDS ───────── */
+    .card {
+      position: relative;
+      flex: 0 0 auto;
+      width: 240px;
+      scroll-snap-align: start;
+      border-radius: 6px;
+      cursor: pointer;
+      transition: transform 0.3s cubic-bezier(.2, .8, .2, 1), z-index 0s;
+      transform-origin: center bottom;
+    }
+
+    .card:hover {
+      transform: scale(1.3) translateY(-16px);
+      z-index: 20;
+    }
+
+    .card:hover .card-hover-info {
+      opacity: 1;
+      pointer-events: all;
+    }
+
+    .thumb {
+      width: 100%;
+      aspect-ratio: 3/2;
+      border-radius: 6px 6px 0 0;
+      overflow: hidden;
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: rgba(255, 255, 255, 0.5);
+      font-size: 0.75rem;
+      text-align: center;
+    }
+
+    .thumb img,
+    .thumb video {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform 0.4s ease;
+    }
+
+    .card:hover .thumb img,
+    .card:hover .thumb video {
+      transform: scale(1.05);
+    }
+
+    .thumb .ph-icon {
+      font-size: 1.8rem;
+      margin-bottom: 6px;
+      display: block;
+      opacity: 0.5;
+    }
+
+    /* gradient overlays on thumbnails */
+    .thumb::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(0deg, rgba(0, 0, 0, 0.5) 0%, transparent 50%);
+      pointer-events: none;
+    }
+
+    .card-hover-info {
+      background: var(--bg-card);
+      padding: 10px 12px 14px;
+      border-radius: 0 0 6px 6px;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.22s ease 0.08s;
+      box-shadow: 0 16px 40px rgba(0, 0, 0, 0.8);
+      border: 1px solid var(--border);
+      border-top: none;
+    }
+
+    .card-hover-info .top-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 8px;
+    }
+
+    .circle-btn {
+      width: 28px;
+      height: 28px;
+      border-radius: 50%;
+      border: 1.5px solid rgba(255, 255, 255, 0.4);
+      background: rgba(40, 40, 40, 0.9);
+      color: #fff;
+      font-size: 0.9rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      transition: border-color 0.2s, background 0.2s;
+    }
+
+    .circle-btn:hover {
+      border-color: #fff;
+      background: rgba(60, 60, 60, 0.9);
+    }
+
+    .match {
+      color: #46d369;
+      font-weight: 700;
+      font-size: 0.75rem;
+      letter-spacing: 0.3px;
+    }
+
+    .card-hover-info .title {
+      font-size: 0.8rem;
+      font-weight: 600;
+      margin-bottom: 3px;
+      line-height: 1.3;
+    }
+
+    .card-hover-info .sub {
+      font-size: 0.7rem;
+      color: var(--text-mute);
+      letter-spacing: 0.2px;
+    }
+
+    /* gradient placeholder variants */
+    .g1 {
+      background: linear-gradient(135deg, #5b1420 0%, #1a0608 100%);
+    }
+
+    .g2 {
+      background: linear-gradient(135deg, #3d1a4a 0%, #0f0618 100%);
+    }
+
+    .g3 {
+      background: linear-gradient(135deg, #1a3d4a 0%, #061218 100%);
+    }
+
+    .g4 {
+      background: linear-gradient(135deg, #4a3d1a 0%, #181206 100%);
+    }
+
+    .g5 {
+      background: linear-gradient(135deg, #1a4a2e 0%, #06180e 100%);
+    }
+
+    .g6 {
+      background: linear-gradient(135deg, #4a1a3d 0%, #180612 100%);
+    }
+
+    /* ───────── MODAL ───────── */
+    .modal-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.85);
+      backdrop-filter: blur(6px);
+      -webkit-backdrop-filter: blur(6px);
+      z-index: 200;
+      display: none;
+      align-items: flex-start;
+      justify-content: center;
+      padding: 4vh 0;
+      overflow-y: auto;
+    }
+
+    .modal-overlay.open {
+      display: flex;
+    }
+
+    .modal {
+      background: var(--bg-elevated);
+      width: min(800px, 92vw);
+      border-radius: 10px;
+      overflow: hidden;
+      animation: modalIn 0.3s cubic-bezier(.2, .8, .2, 1);
+      border: 1px solid var(--border);
+      box-shadow: 0 30px 80px rgba(0, 0, 0, 0.9);
+    }
+
+    @keyframes modalIn {
+      from {
+        opacity: 0;
+        transform: scale(0.9) translateY(20px);
+      }
+
+      to {
+        opacity: 1;
+        transform: scale(1) translateY(0);
+      }
+    }
+
+    .modal-media {
+      width: 100%;
+      aspect-ratio: 16/9;
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: rgba(255, 255, 255, 0.6);
+      overflow: hidden;
+    }
+
+    .modal-media img,
+    .modal-media video {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .modal-close {
+      position: absolute;
+      top: 14px;
+      right: 14px;
+      width: 38px;
+      height: 38px;
+      border-radius: 50%;
+      background: rgba(10, 10, 10, 0.85);
+      border: 1.5px solid rgba(255, 255, 255, 0.15);
+      color: #fff;
+      font-size: 1rem;
+      cursor: pointer;
+      z-index: 2;
+      transition: background 0.2s, transform 0.2s;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .modal-close:hover {
+      background: rgba(50, 50, 50, 0.95);
+      transform: scale(1.1);
+    }
+
+    .modal-body {
+      padding: 28px 36px 38px;
+    }
+
+    .modal-body h3 {
+      font-size: 1.6rem;
+      margin-bottom: 12px;
+      font-family: 'Anton', sans-serif;
+      letter-spacing: 1px;
+    }
+
+    .modal-meta {
+      display: flex;
+      gap: 12px;
+      align-items: center;
+      color: var(--text-dim);
+      font-size: 0.85rem;
+      margin-bottom: 18px;
+      flex-wrap: wrap;
+    }
+
+    .modal-meta .match {
+      font-size: 0.88rem;
+    }
+
+    .modal-body p.caption {
+      color: rgba(255, 255, 255, 0.85);
+      line-height: 1.7;
+      font-size: 0.95rem;
+      font-style: italic;
+    }
+
+    .modal-body .edit-hint {
+      margin-top: 20px;
+      color: var(--text-mute);
+      font-size: 0.76rem;
+      border-top: 1px solid var(--border);
+      padding-top: 14px;
+    }
+
+    /* ───────── FOOTER ───────── */
+    footer {
+      padding: 60px 4% 80px;
+      color: var(--text-mute);
+      border-top: 1px solid var(--border);
+      text-align: center;
+      font-size: 0.82rem;
+      line-height: 2;
+    }
+
+    footer .signature {
+      color: var(--text-dim);
+      font-size: 1rem;
+      margin-bottom: 6px;
+      font-weight: 500;
+    }
+
+    footer .heart {
+      color: var(--red);
+    }
+
+    /* ───────── RESPONSIVE ───────── */
+    @media (max-width: 768px) {
+      nav ul {
+        display: none;
+      }
+
+      .card {
+        width: 160px;
+      }
+
+      .card:hover {
+        transform: scale(1.12) translateY(-8px);
+      }
+
+      .hero {
+        height: 90vh;
+      }
+
+      .hero h1 {
+        font-size: clamp(2.2rem, 10vw, 3.5rem);
+      }
+
+      .modal-body {
+        padding: 20px 20px 28px;
+      }
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'Inter', Helvetica, Arial, sans-serif;
+      overflow-x: hidden;
+    }
+
+    ::-webkit-scrollbar {
+      height: 8px;
+      width: 8px;
+    }
+
+    ::-webkit-scrollbar-thumb {
+      background: #3a3a3a;
+      border-radius: 4px;
+    }
+
+    ::-webkit-scrollbar-track {
+      background: transparent;
+    }
+
+    .wordmark {
+      font-family: 'Anton', sans-serif;
+      letter-spacing: 1px;
+      color: var(--red);
+      text-transform: uppercase;
+    }
+
+    /* ---------------- SPLASH / INTRO ---------------- */
+    #splash {
+      position: fixed;
+      inset: 0;
+      background: #000;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 9999;
+    }
+
+    #splash .logo {
+      font-family: 'Anton', sans-serif;
+      font-size: 16vw;
+      color: var(--red);
+      letter-spacing: 2px;
+      opacity: 0;
+      transform: scale(0.3);
+      text-shadow: 0 0 60px rgba(229, 9, 20, 0.6);
+    }
+
+    #splash.animate .logo {
+      animation: splashZoom 2.2s cubic-bezier(.2, .8, .2, 1) forwards;
+    }
+
+    #splash .tagline {
+      position: absolute;
+      bottom: 14%;
+      color: var(--text-dim);
+      font-size: 0.85rem;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      opacity: 0;
+    }
+
+    #splash.animate .tagline {
+      animation: fadeUp 1s ease forwards 1.6s;
+    }
+
+    @keyframes splashZoom {
+      0% {
+        opacity: 0;
+        transform: scale(0.2);
+      }
+
+      35% {
+        opacity: 1;
+        transform: scale(1.05);
+      }
+
+      55% {
+        transform: scale(0.95);
+      }
+
+      75% {
+        transform: scale(1);
+      }
+
+      100% {
+        opacity: 1;
+        transform: scale(1);
+      }
+    }
+
+    @keyframes fadeUp {
+      from {
+        opacity: 0;
+        transform: translateY(10px);
+      }
+
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    #splash.hide {
+      animation: splashOut 0.6s ease forwards;
+      pointer-events: none;
+    }
+
+    @keyframes splashOut {
+      to {
+        opacity: 0;
+        visibility: hidden;
+      }
+    }
+
+    /* ---------------- NAV ---------------- */
+    header {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 18px 4%;
+      z-index: 100;
+      transition: background 0.35s ease, padding 0.35s ease;
+    }
+
+    header.scrolled {
+      background: var(--bg);
+      box-shadow: 0 2px 12px rgba(0, 0, 0, 0.5);
+      padding: 10px 4%;
+    }
+
+    .nav-left {
+      display: flex;
+      align-items: center;
+      gap: 34px;
+    }
+
+    header .brand {
+      font-size: 1.8rem;
+    }
+
+    nav ul {
+      list-style: none;
+      display: flex;
+      gap: 22px;
+    }
+
+    nav a {
+      color: var(--text-dim);
+      text-decoration: none;
+      font-size: 0.9rem;
+      font-weight: 500;
+      transition: color 0.2s;
+      white-space: nowrap;
+    }
+
+    nav a:hover,
+    nav a.active {
+      color: var(--text);
+    }
+
+    .profile-icon {
+      width: 32px;
+      height: 32px;
+      border-radius: 6px;
+      background: linear-gradient(135deg, var(--red), #8b0000);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.9rem;
+      font-weight: 700;
+    }
+
+    /* ---------------- HERO ---------------- */
+    .hero {
+      position: relative;
+      height: 88vh;
+      display: flex;
+      align-items: flex-end;
+      padding: 0 4% 6%;
+      background:
+        linear-gradient(180deg, rgba(20, 20, 20, 0.15) 0%, rgba(20, 20, 20, 0.05) 40%, var(--bg) 96%),
+        linear-gradient(90deg, rgba(20, 20, 20, 0.85) 0%, rgba(20, 20, 20, 0.2) 60%),
+        radial-gradient(circle at 75% 30%, #4a1420 0%, #2a0d16 35%, #141414 75%);
+      background-size: cover;
+    }
+
+    .hero-media {
+      position: absolute;
+      inset: 0;
+      background-size: cover;
+      background-position: center;
+      z-index: 0;
+    }
+
+    .hero-content {
+      position: relative;
+      z-index: 2;
+      max-width: 640px;
+    }
+
+    .hero-badge {
+      color: var(--red);
+      font-weight: 800;
+      font-size: 0.85rem;
+      letter-spacing: 1px;
+      margin-bottom: 14px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .hero-badge::before {
+      content: "❤";
+    }
+
+    .hero h1 {
+      font-family: 'Anton', sans-serif;
+      font-size: clamp(2.6rem, 7vw, 5rem);
+      line-height: 0.95;
+      margin-bottom: 18px;
+      text-shadow: 2px 2px 12px rgba(0, 0, 0, 0.6);
+    }
+
+    .hero p {
+      color: var(--text);
+      font-size: 1.05rem;
+      line-height: 1.5;
+      margin-bottom: 22px;
+      text-shadow: 1px 1px 6px rgba(0, 0, 0, 0.7);
+      max-width: 520px;
+    }
+
+    .hero-meta {
+      display: flex;
+      gap: 14px;
+      align-items: center;
+      color: var(--text-dim);
+      font-size: 0.9rem;
+      margin-bottom: 22px;
+      flex-wrap: wrap;
+    }
+
+    .hero-meta .pill {
+      border: 1px solid var(--text-mute);
+      padding: 2px 8px;
+      border-radius: 3px;
+      font-size: 0.75rem;
+    }
+
+    .hero-buttons {
+      display: flex;
+      gap: 12px;
+    }
+
+    .btn {
+      border: none;
+      border-radius: 4px;
+      padding: 12px 26px;
+      font-size: 1rem;
+      font-weight: 700;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      transition: transform 0.15s ease, opacity 0.15s ease;
+    }
+
+    .btn:hover {
+      opacity: 0.85;
+    }
+
+    .btn-play {
+      background: #fff;
+      color: #000;
+    }
+
+    .btn-info {
+      background: rgba(109, 109, 110, 0.7);
+      color: #fff;
+    }
+
+    /* ---------------- ROWS ---------------- */
+    main {
+      position: relative;
+      z-index: 3;
+      margin-top: -6vh;
+      padding-bottom: 60px;
+    }
+
+    .row {
+      margin-bottom: 42px;
+    }
+
+    .row h2 {
+      font-size: 1.25rem;
+      font-weight: 700;
+      padding: 0 4%;
+      margin-bottom: 10px;
+    }
+
+    .row-track {
+      display: flex;
+      gap: 6px;
+      overflow-x: auto;
+      padding: 10px 4% 24px;
+      scroll-snap-type: x proximity;
+    }
+
+    .card {
+      position: relative;
+      flex: 0 0 auto;
+      width: 230px;
+      scroll-snap-align: start;
+      border-radius: 4px;
+      cursor: pointer;
+      transition: transform 0.28s ease, z-index 0.28s;
+      transform-origin: center;
+    }
+
+    .card:hover {
+      transform: scale(1.28) translateY(-14px);
+      z-index: 10;
+    }
+
+    .card:hover .card-hover-info {
+      opacity: 1;
+    }
+
+    .thumb {
+      width: 100%;
+      border-radius: 4px 4px 0 0;
+      overflow: hidden;
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: rgba(255, 255, 255, 0.75);
+      font-size: 0.78rem;
+      text-align: center;
+      padding: 8px;
+    }
+
+    .thumb img,
+    .thumb video {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .thumb .ph-icon {
+      font-size: 1.6rem;
+      margin-bottom: 4px;
+      display: block;
+    }
+
+    .card:hover .thumb {
+      border-radius: 4px 4px 0 0;
+      box-shadow: 0 12px 30px rgba(0, 0, 0, 0.6);
+    }
+
+    .card-hover-info {
+      background: var(--bg-elevated);
+      padding: 10px 10px 12px;
+      border-radius: 0 0 4px 4px;
+      opacity: 0;
+      transition: opacity 0.2s ease 0.05s;
+      box-shadow: 0 12px 30px rgba(0, 0, 0, 0.6);
+    }
+
+    .card-hover-info .top-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 6px;
+    }
+
+    .circle-btn {
+      width: 26px;
+      height: 26px;
+      border-radius: 50%;
+      border: 1.5px solid #666;
+      background: rgba(30, 30, 30, 0.9);
+      color: #fff;
+      font-size: 0.75rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+    }
+
+    .match {
+      color: #46d369;
+      font-weight: 700;
+      font-size: 0.78rem;
+    }
+
+    .card-hover-info .title {
+      font-size: 0.82rem;
+      font-weight: 600;
+      margin-bottom: 2px;
+    }
+
+    .card-hover-info .sub {
+      font-size: 0.72rem;
+      color: var(--text-mute);
+    }
+
+    /* gradient placeholder variants */
+    .g1 {
+      background: linear-gradient(135deg, #5b1420, #2a0d16);
+    }
+
+    .g2 {
+      background: linear-gradient(135deg, #3d1a4a, #1c0d24);
+    }
+
+    .g3 {
+      background: linear-gradient(135deg, #1a3d4a, #0d222a);
+    }
+
+    .g4 {
+      background: linear-gradient(135deg, #4a3d1a, #241d0d);
+    }
+
+    .g5 {
+      background: linear-gradient(135deg, #1a4a2e, #0d2417);
+    }
+
+    .g6 {
+      background: linear-gradient(135deg, #4a1a3d, #240d1e);
+    }
+
+    /* ---------------- MODAL ---------------- */
+    .modal-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.8);
+      z-index: 200;
+      display: none;
+      align-items: flex-start;
+      justify-content: center;
+      padding: 4vh 0;
+      overflow-y: auto;
+    }
+
+    .modal-overlay.open {
+      display: flex;
+    }
+
+    .modal {
+      background: var(--bg-elevated);
+      width: min(760px, 92vw);
+      border-radius: 8px;
+      overflow: hidden;
+      animation: modalIn 0.25s ease;
+    }
+
+    @keyframes modalIn {
+      from {
+        opacity: 0;
+        transform: scale(0.94);
+      }
+
+      to {
+        opacity: 1;
+        transform: scale(1);
+      }
+    }
+
+    .modal-media {
+      width: 100%;
+      aspect-ratio: 16/9;
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: rgba(255, 255, 255, 0.7);
+    }
+
+    .modal-media img,
+    .modal-media video {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .modal-close {
+      position: absolute;
+      top: 16px;
+      right: 16px;
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      background: rgba(20, 20, 20, 0.8);
+      border: none;
+      color: #fff;
+      font-size: 1.1rem;
+      cursor: pointer;
+      z-index: 2;
+    }
+
+    .modal-body {
+      padding: 26px 32px 34px;
+    }
+
+    .modal-body h3 {
+      font-size: 1.5rem;
+      margin-bottom: 10px;
+    }
+
+    .modal-meta {
+      display: flex;
+      gap: 12px;
+      align-items: center;
+      color: var(--text-dim);
+      font-size: 0.85rem;
+      margin-bottom: 16px;
+      flex-wrap: wrap;
+    }
+
+    .modal-meta .match {
+      font-size: 0.9rem;
+    }
+
+    .modal-body p.caption {
+      color: var(--text);
+      line-height: 1.6;
+      font-size: 0.95rem;
+    }
+
+    .modal-body .edit-hint {
+      margin-top: 16px;
+      color: var(--text-mute);
+      font-size: 0.78rem;
+      border-top: 1px solid #2a2a2a;
+      padding-top: 12px;
+    }
+
+    /* ---------------- FOOTER ---------------- */
+    footer {
+      padding: 50px 4% 70px;
+      color: var(--text-mute);
+      border-top: 1px solid #2a2a2a;
+      text-align: center;
+      font-size: 0.85rem;
+      line-height: 1.8;
+    }
+
+    footer .signature {
+      color: var(--text-dim);
+      font-size: 0.95rem;
+      margin-bottom: 6px;
+    }
+
+    footer .heart {
+      color: var(--red);
+    }
+
+    @media (max-width:700px) {
+      nav ul {
+        display: none;
+      }
+
+      .card {
+        width: 150px;
+      }
+
+      .card:hover {
+        transform: scale(1.12) translateY(-8px);
+      }
+
+      .hero {
+        height: 78vh;
+      }
+    }
+
+    .music-btn {
+      background: rgba(255, 255, 255, 0.15);
+      border: 1px solid rgba(255, 255, 255, 0.35);
+      color: #fff;
+      padding: 6px 14px;
+      border-radius: 20px;
+      cursor: pointer;
+      font-size: 0.85rem;
+      font-weight: 600;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      transition: all 0.2s ease;
+      font-family: inherit;
+    }
+
+    .music-btn:hover {
+      background: #fff;
+      color: #000;
+      border-color: #fff;
+      transform: scale(1.05);
+    }
+
+    .music-btn.playing {
+      background: var(--red);
+      border-color: var(--red);
+      box-shadow: 0 0 10px var(--red-glow);
+    }
+
+    .music-btn.playing:hover {
+      background: var(--red-dim);
+      border-color: var(--red-dim);
+      color: #fff;
+    }
+
+    .confetti-particle {
+      position: absolute;
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      pointer-events: none;
+      z-index: 1001;
+      animation: explode 1s cubic-bezier(0.1, 0.8, 0.3, 1) forwards;
+    }
+
+    @keyframes explode {
+      0% {
+        transform: translate(-50%, -50%) scale(1);
+        opacity: 1;
+      }
+
+      100% {
+        transform: translate(calc(-50% + var(--x)), calc(-50% + var(--y))) rotate(var(--r)) scale(0);
+        opacity: 0;
+      }
+    }
+
+    .fade-in-row {
+      opacity: 0;
+      transform: translateY(30px);
+      transition: opacity 0.8s cubic-bezier(0.2, 0.8, 0.2, 1), transform 0.8s cubic-bezier(0.2, 0.8, 0.2, 1);
+    }
+
+    .fade-in-row.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* ── Beautiful Animations ── */
+    @keyframes fadeInUp {
+      from {
+        opacity: 0;
+        transform: translateY(24px);
+      }
+
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .hero-content>* {
+      opacity: 0;
+      animation: fadeInUp 0.9s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+    }
+
+    .hero-content .hero-badge {
+      animation-delay: 0.2s;
+    }
+
+    .hero-content h1 {
+      animation-delay: 0.4s;
+    }
+
+    .hero-content .hero-meta {
+      animation-delay: 0.6s;
+    }
+
+    .hero-content p {
+      animation-delay: 0.8s;
+    }
+
+    .hero-content .hero-buttons {
+      animation-delay: 1s;
+    }
+
+    /* Card Hover transitions */
+    .card {
+      transition: transform 0.38s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.38s cubic-bezier(0.16, 1, 0.3, 1) !important;
+    }
+
+    .card:hover {
+      box-shadow: 0 12px 35px rgba(229, 9, 20, 0.5) !important;
+    }
+
+    /* Pulse animation for playing music button */
+    @keyframes musicPulse {
+      0% {
+        box-shadow: 0 0 0 0 rgba(229, 9, 20, 0.6);
+      }
+
+      70% {
+        box-shadow: 0 0 0 10px rgba(229, 9, 20, 0);
+      }
+
+      100% {
+        box-shadow: 0 0 0 0 rgba(229, 9, 20, 0);
+      }
+    }
+
+    .music-btn.playing {
+      animation: musicPulse 2s infinite;
+    }
+  </style>
+</head>
+
+<body>
+
+  <div id="splash">
+    <div class="logo" id="splashLogo">MOMFLIX</div>
+    <div class="tagline">50 years of a wonderful soul</div>
+  </div>
+
+  <header id="siteHeader">
+    <div class="nav-left">
+      <div class="brand wordmark">MOMFLIX</div>
+      <nav>
+        <ul>
+          <li><a href="#" class="active">Home</a></li>
+          <li><a href="#row-0">Golden Jubilee</a></li>
+          <li><a href="#row-1">Her Soundtrack</a></li>
+          <li><a href="#row-2">Raising Us</a></li>
+          <li><a href="#row-3">Prettiest Soul</a></li>
+          <li><a href="#row-4">Through The Years</a></li>
+        </ul>
+      </nav>
+    </div>
+    <div style="display: flex; align-items: center; gap: 15px;">
+      <button id="musicToggle" class="music-btn" onclick="toggleMusic()">🎵 Play Music</button>
+      <div class="profile-icon">👑</div>
+    </div>
+  </header>
+  <audio id="bgMusic" src="the-best-day.mp3" loop></audio>
+
+  <section class="hero" id="hero">
+    <div class="hero-media" id="heroMedia">
+      <!-- Video will load here if CONFIG.heroVideo is set -->
+      <!-- Photo slideshow runs as fallback -->
+    </div>
+    <div class="hero-content">
+      <div class="hero-badge">✦ MOMFLIX ORIGINAL • LIMITED EDITION ✦</div>
+      <h1 id="heroTitle">50 &amp; FABULOUS</h1>
+      <div class="hero-meta">
+        <span id="heroYear">50 Golden Years</span>
+        <span class="pill">100% PURE LOVE</span>
+        <span class="pill">4K HD</span>
+        <span>Music · Family · Prettiest Soul</span>
+      </div>
+      <p id="heroDesc">To the woman who made me and my sister into the people we are today. The prettiest face, the most
+        beautiful heart, and a soul filled with music and endless love. Celebrating 50 extraordinary years!</p>
+      <div class="hero-buttons">
+        <button class="btn btn-play" onclick="openModal('hero')">▶ Play Memories</button>
+        <button class="btn btn-info" onclick="openModal('hero')">ⓘ More Info</button>
+      </div>
+    </div>
+  </section>
+
+  <main id="rows"></main>
+
+  <div class="modal-overlay" id="modalOverlay" onclick="closeModalBg(event)">
+    <div class="modal" id="modalBox">
+      <div class="modal-media" id="modalMedia">
+        <button class="modal-close" onclick="closeModal()">✕</button>
+      </div>
+      <div class="modal-body">
+        <h3 id="modalTitle"></h3>
+        <div class="modal-meta">
+          <span class="match" id="modalMatch"></span>
+          <span id="modalYear"></span>
+          <span class="pill">50 ★</span>
+        </div>
+        <p class="caption" id="modalCaption"></p>
+      </div>
+    </div>
+  </div>
+
+  <footer>
+    <div class="signature">Created with <span class="heart">♥</span> for Mom's 50th Birthday</div>
+    <div>A production of her loving daughters &nbsp;·&nbsp; 50 Years of Golden Memories</div>
+  </footer>
+
+  <script>
+    /* ============================================================
+       CONFIG — edit this section with your details
+       ============================================================ */
+    const CONFIG = {
+      heroTitle: "50 & FABULOUS",
+      heroYear: "50 Golden Years",
+      heroDescription: "To the woman who made me and my sister into the people we are today. The prettiest face, the most beautiful heart, and a soul filled with music and endless love. Celebrating 50 extraordinary years!",
+      // ─── HERO VIDEO ──────────────────────────────────────────────────
+      // Add your .mov or .mp4 file name here to use it as the cover video.
+      // Put the file in the same folder as this HTML file, then change:
+      //   heroVideo: null  →  heroVideo: "your-video.mov"
+      heroVideo: "IMG_5423 2.MOV",             // e.g. "cover.mov" or "cover.mp4"
+      // ─── HERO FALLBACK IMAGE (used if no video) ──────────────────────
+      heroImage: "059937AE-7396-423B-A754-5ED4A6856D6E.jpeg",
+      splashInitials: "MOMFLIX"                // splash screen text
+    };
+
+    /* ============================================================
+       ROWS — your "shows". Add/edit cards freely.
+       image: null  -> shows a placeholder thumbnail
+       image: "file.jpg" -> shows your photo (put file next to this html)
+       video: "file.mp4" -> shows your video instead
+       ============================================================ */
+    // const ROWS = [
+    //   {
+    //     title: "Season 50: Golden Jubilee",
+    //     items: [
+    //       { title: "01 — The Artist", year: "Starring: The woman who could turn anything into art.", caption: "With a little creativity, a lot of patience, and those magical hands of hers, she taught us that art isn’t just something you make — it’s something you see in the world around you. From crafts to little creations, she made sure we grew up believing that we could make beautiful things too.", match: "100%", g: "g1", image: "06FDAA06-F4AC-49EB-A099-E31D8EE062BF.jpeg" },
+    //       { title: "02 — The Safe Place", year: "Starring: The person who always picks up the phone.", caption: "No matter the time, the distance, or how many times we call, she is always there to listen. No judgement. No rush. Just her voice on the other end, somehow making everything feel a little better.", match: "100%", g: "g2", image: "0AB8C82A-AA6B-44EF-8C38-17C8FA3B857D.jpg" },
+    //       { title: "03 — The Cutest One", year: "Starring: The woman who somehow gets cuter every year.", caption: "There are people who are cute… and then there’s Mom. From her little expressions to the way she gets excited about the smallest things, she has a kind of cuteness that simply cannot be explained — only witnessed. ❤️", match: "100%", g: "g3", image: "0D9FE50D-C47F-40D0-9363-AB2AB658636D_1_105_c.jpeg" },
+    //       { title: "04 — The Purest Soul", year: "Starring: A heart that knows only kindness.", caption: "If kindness had a face, it would be hers. She has spent her life giving love without expecting anything in return, always putting people before herself and seeing the good in everyone. A truly rare kind of soul.", match: "100%", g: "g4", image: "0E4706EF-1D5C-4735-BBAC-63A923808FDA_1_201_a.jpg" },
+    //       { title: "05 — The Hype Woman", year: "Starring: Mom — Chief Believer, Professional Cheerleader.", caption: "No matter what we do, she somehow makes us believe we can do it better. Our biggest supporter, loudest cheerleader, and the person who celebrates our smallest wins like they’re blockbuster achievements. Every main character needs a hype woman — and we got the best one.", match: "100%", g: "g5", image: "1223A35E-03C4-41F7-B0E9-006722FD2664_1_105_c.jpeg" },
+    //       { title: "06 — The Coach", year: "Starring: The woman who taught us how to play the game — and play it right.", caption: "She taught us that life needs discipline, dedication and a little bit of hard work. To study hard, play hard, show up, give our best and never give up. Long before we understood what those lessons meant, she was already preparing us for life.", match: "100%", g: "g6", image: "WhatsApp Image 2026-08-24 at 8.56.01 PM.jpeg" },
+    //     ]
+    //   },
+    //   {
+    //     title: "Her Favorite Soundtrack (Music & Joy)",
+    //     items: [
+    //       { title: "Ep. 1: Songs That Bring Her Joy", year: "Music Lover", caption: "Pressing play on her favorite songs — music, warmth, and melody in every corner of her soul.", match: "100%", g: "g5", image: "17DB23E7-66E6-4B48-B688-EA235BCA53A4_1_105_c.jpeg" },
+    //       { title: "Ep. 2: Humming & Sunshine", year: "Good Vibes", caption: "That gorgeous smile when her favorite tune plays. The sweetest rhythm in our home.", match: "97%", g: "g6", image: "1BCDC2BA-6A2C-4716-A8A8-3502DA12A358.jpg" },
+    //       { title: "Ep. 3: Dancing Through Life", year: "Pure Happiness", caption: "Living life with grace, joy, and a heart full of melody.", match: "98%", g: "g1", image: "2B7BFB77-083A-4A2F-82AC-7360172BD2E1.jpg" },
+    //       { title: "Ep. 4: Songs That Remind Us of Her", year: "Classics", caption: "Every beautiful lyrics and melody feels like a tribute to her gentle, loving heart.", match: "99%", g: "g2", image: "3098B39B-9E01-4C66-9F9A-725322B6AF43.jpg" },
+    //       { title: "Ep. 5: Melody in Her Soul", year: "Always Singing", caption: "Bringing harmony, warmth, and melody into our family life everyday.", match: "96%", g: "g3", image: "3320D7C6-EF88-4D41-878A-2657786FC085.jpeg" },
+    //       { title: "Season 50 Finale", year: "Milestone", caption: "Here's to the next 50 years of health, songs, and happiness!", match: "100%", g: "g6", image: "FF71558F-D498-40C2-947F-EB3902E24E25_1_105_c.jpeg" },
+    //       { title: "Always Our Guiding Star", year: "Guidance", caption: "Your love leads the way through everything we do.", match: "100%", g: "g6", image: "WhatsApp Image 2026-08-24 at 8.54.50 PM.jpeg" },
+    //       { title: "The Heart of the Home", year: "Warmth", caption: "The one who fills our lives with comfort, peace, and melody.", match: "99%", g: "g1", image: "WhatsApp Image 2026-08-24 at 8.54.51 PM (1).jpeg" },
+    //       { title: "Milestones of Love", year: "50 Years", caption: "Celebrating every chapter of a truly beautiful life journey.", match: "100%", g: "g2", image: "WhatsApp Image 2026-08-24 at 8.54.51 PM.jpeg" },
+    //       { title: "Generations of Grace", year: "Family Bond", caption: "An unbreakable bond of love, respect, and deep connection.", match: "98%", g: "g3", image: "WhatsApp Image 2026-08-24 at 8.54.52 PM (1).jpeg" },
+    //       { title: "Pure Joy & Celebrations", year: "Festive", caption: "Cheers to a lifetime of health, happiness, and beautiful dreams.", match: "100%", g: "g4", image: "WhatsApp Image 2026-08-24 at 8.54.52 PM.jpeg" },
+    //       { title: "Mom's Golden Sparkle", year: "Radiant", caption: "Fifty looks gorgeous on you, today and every single day.", match: "100%", g: "g5", image: "WhatsApp Image 2026-08-24 at 8.56.01 PM.jpeg" },
+
+    //     ]
+    //   },
+    //   {
+    //     title: "Raising Us",
+    //     items: [
+    //       { title: "Ep. 1: Shaping Our World", year: "Our Foundation", caption: "Everything me and my sister are today, we owe completely to your strength, wisdom, and unconditional love.", match: "100%", g: "g3", image: "383E9F2F-70B5-4891-B4E2-6786CF3AFD06_1_102_o.jpeg" },
+    //       { title: "Ep. 2: The Ultimate Cheerleader", year: "Always There", caption: "Thank you for believing in us, supporting our dreams, and being our biggest fan in life.", match: "99%", g: "g4", image: "3DC01886-3ABB-4BF9-B030-63BCD2AD2DFE_1_105_c.jpeg" },
+    //       { title: "Ep. 3: Mother & Daughter Talks", year: "Heart-to-Hearts", caption: "Late night laughter, wise advice, and warm hugs that fix everything in an instant.", match: "98%", g: "g5", image: "3E314BE7-E442-4CCA-BACD-EAAF0A24378F.jpg" },
+    //       { title: "Ep. 4: Two Proud Daughters", year: "Forever Blessed", caption: "We are so endlessly proud to call you our Mom. You are our role model and queen.", match: "100%", g: "g6", image: "46E325E4-D52E-4359-842C-FC950A1DA647.jpg" },
+    //       { title: "Ep. 5: Sisterhood & Mom", year: "Trio", caption: "The bond between Mom and her two daughters — unbreakable, beautiful, and eternal.", match: "100%", g: "g1", image: "4AD89925-3364-4927-8327-59018396FF55_1_105_c.jpeg" },
+    //       { title: "Laughter & Hugs", year: "Warmth", caption: "The warmest hugs and happiest laughs in the whole world.", match: "99%", g: "g1", image: "C63FAF7F-7AAD-4388-835E-8AE53D0B8C80.jpeg" },
+    //       { title: "Mom's Special Day", year: "2026", caption: "Making 50th birthday wishes come true for the most amazing mom.", match: "100%", g: "g2", image: "CC1714E7-BEB7-4CAF-87CD-A37C6A6E13B0.jpg" },
+    //     ]
+    //   },
+    //   {
+    //     title: "The Prettiest Heart & Soul",
+    //     items: [
+    //       { title: "Ep. 2: Kindness That Heals", year: "Pure Gold", caption: "Your gentle nature and warmth brighten up every room you walk into.", match: "99%", g: "g2", image: "5BAB781B-C29E-4D08-BC69-EFFB4C081A44_1_105_c.jpeg" },
+    //       { title: "Ep. 3: Queen of Multitasking", year: "Supermom", caption: "Balancing everything with grace and a smile — an absolute inspiration to everyone.", match: "97%", g: "g3", image: "636B7A20-9E16-4F4B-AC73-3B51D357E257.jpeg" },
+    //       { title: "Ep. 4: 50 Years Young", year: "Timeless", caption: "More radiant, wise, and loved than ever before!", match: "100%", g: "g4", image: "685520BB-ED15-4E57-B8F4-AC2DC299095E_1_201_a.jpg" },
+    //       { title: "Ep. 5: Graceful & Glowing", year: "Pure Joy", caption: "50 looks absolutely stunning on you!", match: "99%", g: "g5", image: "71201BCB-4124-47FD-9259-1114153DBD74.jpg" },
+    //       { title: "A Lifetime of Smiles", year: "Golden Smiles", caption: "Your laughter is the sweetest sound in our home.", match: "100%", g: "g2", image: "WhatsApp Image 2026-08-24 at 8.49.28 PM.jpeg" },
+    //       { title: "Mom's Special Celebration", year: "Jubilee", caption: "Raising a toast to the most wonderful mother in the world.", match: "98%", g: "g3", image: "WhatsApp Image 2026-08-24 at 8.54.40 PM.jpeg" },
+    //       { title: "Surrounded by Love", year: "Sweet Memories", caption: "Gathered together to make this landmark birthday unforgettable.", match: "100%", g: "g4", image: "WhatsApp Image 2026-08-24 at 8.54.46 PM (1).jpeg" },
+    //       { title: "Laughter & Sunshine", year: "Happy Days", caption: "Nothing brightens our lives like your loving presence.", match: "97%", g: "g5", image: "WhatsApp Image 2026-08-24 at 8.54.46 PM.jpeg" },
+    //     ]
+    //   },
+    //   {
+    //     title: "Through The Years ",
+    //     items: [
+    //       { title: "Decade 1 & 2: Flashback Memories", year: "Early Days", caption: "Growing up with big dreams, bright smiles, and a heart full of love.", match: "100%", g: "g5", image: "787687E6-5FBF-4A17-8715-5CD7F208D703.jpg" },
+    //       { title: "Decade 3: Raising Little Girls", year: "Family Roots", caption: "Creating a warm home filled with love, laughter, and magical childhood memories.", match: "100%", g: "g6", image: "7B4BC47F-5486-4FD4-8F8C-7EAFA3AB8A45.jpg" },
+    //       { title: "Decade 4: Family Adventures", year: "Golden Moments", caption: "Unforgettable trips, endless laughs, and special moments shared together.", match: "99%", g: "g1", image: "7F2F5003-563C-4B6A-AF04-3F2D35BA18F5.jpg" },
+    //       { title: "Decade 5: 50th Milestone Today", year: "2026", caption: "Celebrating 50 incredible years surrounded by the people who love you most!", match: "100%", g: "g2", image: "7F496196-31BD-4034-BD99-323D37CBCC5E_1_105_c.jpeg" },
+    //       { title: "Treasured Moments", year: "Precious", caption: "Every single picture tells a story of love, laughter, and family.", match: "100%", g: "g3", image: "8293ACEF-32CC-48A9-9560-C441D24271D4.jpeg" },
+    //     ]
+    //   },
+    //   {
+    //     title: "Messages from Us",
+    //     items: [
+    //       { title: "Love Note #1: To Our Guiding Light", year: "From Us", caption: "Thank you for making us into the people we are today. You mean the absolute world to us!", match: "100%", g: "g3", image: "8974CA67-B72F-49CA-96C2-60820E2A83F7.jpg" },
+    //       { title: "Love Note #2: To The Prettiest Soul", year: "With All Our Heart", caption: "No words can ever describe how much we love you. Happy 50th Birthday, Mom!", match: "100%", g: "g4", image: "8C70400A-3001-494B-A89D-071415456E83_1_105_c.jpeg" },
+    //       { title: "Love Note #3: Season 51 & Beyond", year: "Forever & Ever", caption: "May your 50s be filled with endless songs, sunshine, good health, and immense joy!", match: "100%", g: "g5", image: "93170C65-FECD-4F12-B91E-00444CB36B97_1_105_c.jpeg" },
+    //       { title: "Love Note #4: Our Favorite Person", year: "Best Mom Ever", caption: "The prettiest face, the kindest heart, and the most wonderful soul.", match: "100%", g: "g6", image: "9D1A89C8-46CC-4576-AC43-9E8D9E642B94_1_105_c.jpeg" },
+    //       { title: "Prettiest Smile", year: "Forever Young", caption: "Her smile lights up our world everyday.", match: "99%", g: "g2", image: "F472A74B-9DBE-4247-9266-768F0014606F.jpg" },
+    //       { title: "Cherished Memories", year: "Golden", caption: "Memories that we will hold close to our hearts forever.", match: "100%", g: "g3", image: "F9D74879-EFB3-4D78-8A6A-48849B74A170_1_201_a.jpg" },
+    //       { title: "Queen of Our Home", year: "50th Jubilee", caption: "Wishing the sweetest 50th Birthday to the most wonderful mom!", match: "100%", g: "g4", image: "FA8EBC53-872A-4FD8-B9CF-468903D2168D.jpg" },
+    //       { title: "Love Without End", year: "Always & Forever", caption: "No matter how much time passes, our love for you grows bigger every day.", match: "100%", g: "g5", image: "FBB744AD-6163-4D9C-AFDC-F6F66046B4B3_1_105_c.jpeg" },
+
+    //     ]
+    //   },
+    //   {
+    //     title: "Golden Celebrations & Smiles",
+    //     items: [
+    //       { title: "Smiles That Light Up The Room", year: "Joyful", caption: "Your smile makes every ordinary day feel like a grand celebration.", match: "100%", g: "g1", image: "A5364E23-9E18-4C14-B1DA-1409D5D116FB.jpeg" },
+    //       { title: "Family Gatherings", year: "Warmth", caption: "Bringing everyone together with love, delicious food, and laughter.", match: "99%", g: "g2", image: "AB86A35D-45FE-4B03-A11C-6C21810AA412.jpg" },
+    //       { title: "Unforgettable Days", year: "Precious", caption: "Cherishing every single moment we get to spend with you.", match: "100%", g: "g3", image: "B1553AF0-D61E-459F-B16C-53339E53399A_1_105_c.jpeg" },
+    //       { title: "Pure Elegance", year: "Golden Year", caption: "50 years of timeless beauty, grace, and wisdom.", match: "98%", g: "g4", image: "B67F7AC5-D2B8-4C12-ACF0-EF9467390856.jpeg" },
+    //       { title: "Special Milestones", year: "Memories", caption: "Building a lifetime of gorgeous memories with her two proud daughters.", match: "99%", g: "g5", image: "C06C6E1D-EECD-4028-BC47-875016763BA9_1_105_c.jpeg" },
+    //       { title: "Sweet Surprises", year: "Celebration", caption: "Celebrating the queen of our lives today and always!", match: "100%", g: "g6", image: "C55C7A18-947E-4E32-A7DA-9403F1282546.jpeg" },
+    //     ]
+    //   },
+    //   {
+    //     title: "Gallery of Eternal Love",
+    //     items: [
+    //       { title: "A Mother's Gentle Touch", year: "Pure Love", caption: "Your love is our guiding star in life.", match: "100%", g: "g3", image: "D12CAF23-2174-4ACD-BB88-B0A40B2C5264_1_105_c.jpeg" },
+    //       { title: "Sunshine & Songs", year: "Happiness", caption: "Loves her favorite songs, sunshine, and family time.", match: "98%", g: "g4", image: "D9A0691C-E1DB-4858-97D2-6AEAA8DFE2C1_1_105_c.jpeg" },
+    //       { title: "Life's Beautiful Journey", year: "50 Years", caption: "50 incredible years of spreading kindness and love.", match: "99%", g: "g5", image: "DC7AD242-3F06-4D43-8526-FCCE9A32EDD2_1_105_c.jpeg" },
+    //       { title: "Motherhood Journey", year: "Blessed", caption: "Thank you for being the heart and soul of our lives.", match: "100%", g: "g6", image: "F00D7B3B-860B-4EFF-8EA9-E615C8785915.jpg" },
+    //       { title: "Daughter & Mom Magic", year: "Special Bond", caption: "Raised with love, strength, and grace.", match: "100%", g: "g1", image: "F3126887-02C1-48FC-9DEF-38450191963C_1_105_c.jpeg" },
+    //     ]
+    //   }
+    // ];
+
+    const ROWS = [
+      {
+        title: "Mom, Unfiltered",
+        items: [
+          { title: "Frame 1: Shimmer & Shine", year: "Sparkle Mode", caption: "Dressed in shimmer, glowing even brighter than the outfit itself.", match: "99%", g: "g1", image: "2B7BFB77-083A-4A2F-82AC-7360172BD2E1.jpg" },
+          { title: "Frame 2: Just Her", year: "Effortlessly Herself", caption: "No pose, no pressure — just her, being exactly who she is.", match: "100%", g: "g4", image: "FF71558F-D498-40C2-947F-EB3902E24E25_1_105_c.jpeg" },
+          { title: "Frame 7: Fifty & Flawless", year: "Golden Era", caption: "If this is what fifty looks like, sign us all up.", match: "100%", g: "g5", image: "DC7AD242-3F06-4D43-8526-FCCE9A32EDD2_1_105_c.jpeg" },
+          { title: "Frame 4: The Prettiest Smile", year: "Signature Smile", caption: "That smile has been lighting up our home for as long as we can remember.", match: "100%", g: "g2", image: "F472A74B-9DBE-4247-9266-768F0014606F.jpg" },
+          { title: "Frame 5: Queen of the House", year: "Regal As Ever", caption: "Every home needs a queen. Ours has had the best one for fifty years.", match: "99%", g: "g3", image: "FA8EBC53-872A-4FD8-B9CF-468903D2168D.jpg" },
+          { title: "Frame 6: Timeless Beauty", year: "Ageless", caption: "The years pass, but somehow she just keeps getting more beautiful.", match: "97%", g: "g4", image: "FBB744AD-6163-4D9C-AFDC-F6F66046B4B3_1_105_c.jpeg" },
+          { title: "Frame 3: Golden Hour Glow", year: "Radiant", caption: "Some people just look like sunshine. She's one of them.", match: "100%", g: "g1", image: "9D1A89C8-46CC-4576-AC43-9E8D9E642B94_1_105_c.jpeg" },
+          { title: "Frame 8: Solo Star", year: "All Eyes On Her", caption: "She doesn't need a spotlight — she is the spotlight.", match: "98%", g: "g6", image: "F3126887-02C1-48FC-9DEF-38450191963C_1_105_c.jpeg" },
+          { title: "Frame 9: Roses Suit Her", year: "Bloom Where You're Planted", caption: "Surrounded by roses and somehow still the prettiest thing in the picture.", match: "97%", g: "g2", image: "7F496196-31BD-4034-BD99-323D37CBCC5E_1_105_c.jpeg" },
+          { title: "Frame 10: Bollywood Ready", year: "Main Character Energy", caption: "Give her some colour and a camera and she instantly becomes the heroine of her own film.", match: "99%", g: "g5", image: "4AD89925-3364-4927-8327-59018396FF55_1_105_c.jpeg" },
+          { title: "Frame 11: Umbrella & Attitude", year: "Umbrella & Attitude", caption: "Holding an umbrella, surrounded by friends, and effortlessly stealing the whole scene — that's just who she is.", match: "100%", g: "g3", image: "0D9FE50D-C47F-40D0-9363-AB2AB658636D_1_105_c.jpeg" },
+        ]
+      },
+      {
+        title: "The Origin Story",
+        items: [
+          { title: "Chapter 1: The Debut", year: "Where It All Began", caption: "Long before we could form memories, she was already this stunning — cradling us on our very first birthday, glowing brighter than any candle on the cake.", match: "100%", g: "g1", image: "D12CAF23-2174-4ACD-BB88-B0A40B2C5264_1_105_c.jpeg" },
+          { title: "Chapter 2: Three Years Old & Already Her Shadow", year: "Sisterhood Starts Early", caption: "Before selfies, before phones, there was this — a three-year-old already glued to her mother's side. Some bonds start before you can even spell your own name.", match: "100%", g: "g2", image: "WhatsApp Image 2026-08-24 at 8.49.28 PM.jpeg" },
+          { title: "Chapter 3: Flower Child", year: "Growing Up Golden", caption: "Nine years old, sitting on her lap surrounded by flowers, without a single worry in the world — because that's exactly how she made childhood feel.", match: "99%", g: "g3", image: "0AB8C82A-AA6B-44EF-8C38-17C8FA3B857D.jpg" },
+          { title: "Chapter 4: Ball Pit Champions", year: "Play Hard", caption: "She never stopped being fun. Even in a pit full of colourful balls, she was right there with us, laughing louder than anyone.", match: "98%", g: "g4", image: "8974CA67-B72F-49CA-96C2-60820E2A83F7.jpg" },
+        ]
+      },
+      {
+        title: "Mom & Dad: A Love Story",
+        items: [
+          { title: "Take 1: Once Upon a Garden", year: "The Meet Cute", caption: "Somewhere between the flowers and the fairy lights, this is what forever looks like — two people who still choose each other, every single day.", match: "100%", g: "g5", image: "17DB23E7-66E6-4B48-B688-EA235BCA53A4_1_105_c.jpeg" },
+          { title: "Take 2: Still In Love", year: "Decades In", caption: "No filter needed. Just two people who've weathered every season of life together and still can't stop smiling at each other.", match: "100%", g: "g6", image: "WhatsApp Image 2026-08-24 at 8.54.51 PM (1).jpeg" },
+          { title: "Take 3: Tea, Rain & Romance", year: "Simple Pleasures", caption: "A cup of tea, the sound of rain, and the person you'd choose all over again. Some of the best love stories are the quiet ones.", match: "97%", g: "g2", image: "B1553AF0-D61E-459F-B16C-53339E53399A_1_105_c.jpeg" },
+          { title: "Take 4: Traditionally Timeless", year: "Roots & Rituals", caption: "Dressed in tradition, standing in love — this is what decades of partnership looks like.", match: "99%", g: "g3", image: "A5364E23-9E18-4C14-B1DA-1409D5D116FB.jpeg" },
+        ]
+      },
+
+      {
+        title: "The Girl Gang",
+        items: [
+          { title: "Ep. 1: The Original Trio", year: "Squad Since Day One", caption: "Mom, me, and my sister — the original girl gang, long before anyone knew what that phrase even meant.", match: "100%", g: "g4", image: "0E4706EF-1D5C-4735-BBAC-63A923808FDA_1_201_a.jpg" },
+          { title: "Ep. 2: Three Peas, One Pod", year: "Inseparable", caption: "Wherever one of us goes, the other two aren't far behind. That's just how it's always been.", match: "99%", g: "g5", image: "636B7A20-9E16-4F4B-AC73-3B51D357E257.jpeg" },
+          { title: "Ep. 3: The Trio Strikes Again", year: "Matching Energy", caption: "Same energy, same laugh, same love for each other — every single time we're together.", match: "98%", g: "g6", image: "93170C65-FECD-4F12-B91E-00444CB36B97_1_105_c.jpeg" },
+          { title: "Ep. 4: Goofball Alert", year: "Fun Pose Champions", caption: "Give us a camera and thirty seconds and this is exactly what you'll get — chaos, laughter, and mom leading the silliness.", match: "97%", g: "g2", image: "F00D7B3B-860B-4EFF-8EA9-E615C8785915.jpg" },
+          { title: "Ep. 5: Camera Ready", year: "Say Cheese", caption: "She taught us that every photo is a chance to celebrate being together — so we never miss the chance to pose.", match: "99%", g: "g3", image: "7F2F5003-563C-4B6A-AF04-3F2D35BA18F5.jpg" },
+          { title: "Ep. 6: The Grand Trio", year: "Dressed to Impress", caption: "Two generations of style, standing tall and looking absolutely radiant together.", match: "100%", g: "g4", image: "B67F7AC5-D2B8-4C12-ACF0-EF9467390856.jpeg" },
+          { title: "Ep. 7: Certified Hot Girl Trio", year: "Confidence Runs in the Family", caption: "If confidence was a family trait, we definitely got it from her.", match: "98%", g: "g5", image: "WhatsApp Image 2026-08-24 at 8.54.50 PM.jpeg" },
+          { title: "Ep. 8: Selfie Mode: On", year: "Candid Chaos", caption: "The best selfies are never planned — just three of us, one phone, and endless giggles.", match: "97%", g: "g6", image: "WhatsApp Image 2026-08-24 at 8.54.52 PM (1).jpeg" },
+          { title: "Ep. 9: Just Being Silly", year: "Sister & Mom Duo", caption: "Some days call for serious photos. This was not one of those days.", match: "96%", g: "g1", image: "71201BCB-4124-47FD-9259-1114153DBD74.jpg" },
+          { title: "Ep. 11: Sister, Mother, Best Friend", year: "Two Peas", caption: "A relationship that started as mother and daughter and somewhere along the way turned into best friends too.", match: "99%", g: "g2", image: "3E314BE7-E442-4CCA-BACD-EAAF0A24378F.jpg" },
+          { title: "Ep. 12: Three of Us, As Always", year: "Together Always", caption: "No matter what's happening in life, somehow the three of us always end up right here — together.", match: "100%", g: "g3", image: "WhatsApp Image 2026-08-24 at 8.54.46 PM (1).jpeg" },
+          { title: "Ep. 13: Smart & Stylish", year: "Dressed Up Trio", caption: "Proof that great style, like great love, runs in the family.", match: "98%", g: "g4", image: "WhatsApp Image 2026-08-24 at 8.54.46 PM.jpeg" },
+        ]
+      },
+      {
+        title: "The Full House",
+        items: [
+          { title: "Ep. 1: Home Sweet Home", year: "Family First", caption: "Four people, one heart. This is what home has always looked like for us.", match: "100%", g: "g5", image: "3320D7C6-EF88-4D41-878A-2657786FC085.jpeg" },
+          { title: "Ep. 2: The Grand Ensemble", year: "All Four, All Grand", caption: "Dressed up, all together, and looking like the main cast of our own family show.", match: "100%", g: "g6", image: "C63FAF7F-7AAD-4388-835E-8AE53D0B8C80.jpeg" },
+          { title: "Ep. 3: Flying High Together", year: "Free & Together", caption: "Fabric flowing in the wind, all four of us together — free, happy, and completely ourselves.", match: "98%", g: "g1", image: "685520BB-ED15-4E57-B8F4-AC2DC299095E_1_201_a.jpg" },
+          { title: "Ep. 4: The Whole Gang, Dressed Up", year: "Grand Affair", caption: "Every family gathering feels a little grander with all four of us in one frame.", match: "99%", g: "g2", image: "WhatsApp Image 2026-08-24 at 8.54.40 PM.jpeg" },
+          { title: "Ep. 5: Sharp Dressed Family", year: "Smart & Stylish", caption: "Proof that this family knows how to clean up nicely — every single time.", match: "97%", g: "g3", image: "7B4BC47F-5486-4FD4-8F8C-7EAFA3AB8A45.jpg" },
+          { title: "Ep. 6: Complete", year: "Us, Always", caption: "This is what complete looks like — the four of us, together, exactly where we belong.", match: "100%", g: "g4", image: "F9D74879-EFB3-4D78-8A6A-48849B74A170_1_201_a.jpg" },
+          { title: "Ep. 7: The Rest of the Squad", year: "Family Ties", caption: "Dad, mom, and sis — because family photos don't always need everyone in frame to feel whole.", match: "96%", g: "g5", image: "WhatsApp Image 2026-08-24 at 8.56.01 PM.jpeg" },
+        ]
+      },
+      {
+        title: "Passport Stamps",
+        items: [
+          { title: "Stop 1: Queens of Jaisalmer", year: "Fort Royalty", caption: "In the middle of the desert fort, dressed like royalty — because with her around, every trip feels like a fairytale.", match: "100%", g: "g6", image: "3098B39B-9E01-4C66-9F9A-725322B6AF43.jpg" },
+          { title: "Stop 2: Desert Dreamers", year: "Sand & Sun", caption: "Miles of golden sand and the three of us making memories that outlast any postcard.", match: "99%", g: "g1", image: "46E325E4-D52E-4359-842C-FC950A1DA647.jpg" },
+          { title: "Stop 3: Dubai Diaries", year: "Family Vacation", caption: "New city, same unstoppable family energy — this time against a Dubai skyline.", match: "98%", g: "g2", image: "WhatsApp Image 2026-08-24 at 8.54.51 PM.jpeg" },
+          { title: "Stop 4: Sheikh Chic", year: "Dress-Up Diaries", caption: "When in Dubai, dress like it — the whole family leaning fully into the theme.", match: "100%", g: "g3", image: "AB86A35D-45FE-4B03-A11C-6C21810AA412.jpg" },
+        ]
+      },
+
+      {
+        title: "Milestones & Magic",
+        items: [
+          { title: "Moment 1: Proud Parents", year: "Graduation Day", caption: "The day I crossed that stage, she and dad were right there, prouder than I'd ever seen them — because every milestone of ours has always felt like hers too.", match: "100%", g: "g4", image: "8293ACEF-32CC-48A9-9560-C441D24271D4.jpeg" },
+          { title: "Moment 2: 25 Years & Counting", year: "Silver Anniversary", caption: "Twenty-five years of marriage, celebrated the traditional way — flowers, haldi, and a love story still going strong.", match: "100%", g: "g5", image: "WhatsApp Image 2026-08-24 at 8.54.52 PM.jpeg" },
+          { title: "Moment 3: Concert Nights", year: "Front Row Together", caption: "She's not just my mother, she's my concert buddy too — proof that she's always up for making a memory out of anything.", match: "98%", g: "g6", image: "C06C6E1D-EECD-4028-BC47-875016763BA9_1_105_c.jpeg" },
+          { title: "Moment 4: The Artist Strikes Again", year: "Rangoli Magic", caption: "Give her some colour powder and a blank floor, and watch her turn it into art in minutes. She taught us that celebrations start with the little details.", match: "99%", g: "g1", image: "D9A0691C-E1DB-4858-97D2-6AEAA8DFE2C1_1_105_c.jpeg" },
+          { title: "Moment 5: A Ceremony of Flowers", year: "Family Tradition", caption: "Flowers, tradition, and the three of us together — because in our house, she made sure even ceremonies felt like a celebration of family.", match: "100%", g: "g2", image: "787687E6-5FBF-4A17-8715-5CD7F208D703.jpg" },
+        ]
+      },
+      {
+        title: "Just Me & Mom",
+        items: [
+          { title: "Scene 1: Just The Two Of Us", year: "Present Day", caption: "No occasion needed — just her and me, and a moment worth keeping forever.", match: "100%", g: "g3", image: "06FDAA06-F4AC-49EB-A099-E31D8EE062BF.jpeg" },
+          { title: "Scene 2: Mom's Favourite Pose", year: "Classic Duo", caption: "We've posed for a hundred pictures together, and somehow every single one still feels special.", match: "99%", g: "g4", image: "1223A35E-03C4-41F7-B0E9-006722FD2664_1_105_c.jpeg" },
+          { title: "Scene 3: The Best Kind of Hug", year: "Comfort Zone", caption: "There's no hug in the world quite like hers — the kind that fixes everything, instantly.", match: "100%", g: "g5", image: "1BCDC2BA-6A2C-4716-A8A8-3502DA12A358.jpg" },
+          { title: "Scene 4: Just Us Two", year: "My Person", caption: "No matter how old I get, being next to her still feels like home.", match: "98%", g: "g6", image: "CC1714E7-BEB7-4CAF-87CD-A37C6A6E13B0.jpg" },
+          { title: "Scene 5: Silly & Sweet", year: "Fun Pose Forever", caption: "She's just as much fun as she is caring — proof that you can be both a role model and a total goofball.", match: "97%", g: "g1", image: "5BAB781B-C29E-4D08-BC69-EFFB4C081A44_1_105_c.jpeg" },
+        ]
+      }
+    ];
+    /* ============================================================
+       Rendering — you shouldn't need to touch below this line
+       ============================================================ */
+
+    function mediaEl(item, isModal) {
+      if (item.video) {
+        return `<video src="${item.video}" ${isModal ? "controls autoplay" : "muted loop autoplay playsinline"}></video>`;
+      }
+      if (item.image) {
+        return `<img src="${item.image}" alt="${item.title}">`;
+      }
+      return `<span><span class="ph-icon">🎬</span>${isModal ? "Add a photo or video for this scene" : "Tap to add photo"}</span>`;
+    }
+
+    function renderRows() {
+      const main = document.getElementById('rows');
+      ROWS.forEach((row, ri) => {
+        const section = document.createElement('section');
+        section.className = 'row';
+        section.id = `row-${ri}`;
+        const track = row.items.map((item, ii) => `
+      <div class="card ${item.image || item.video ? '' : item.g}" onclick="openItemModal(${ri},${ii})">
+        <div class="thumb ${item.image || item.video ? '' : item.g}">${mediaEl(item, false)}</div>
+        <div class="card-hover-info">
+          <div class="top-row">
+            <div class="circle-btn">+</div>
+            <div class="match">${item.match === "?" ? "" : item.match + " match"}</div>
+          </div>
+          <div class="title">${item.title}</div>
+          <div class="sub">${item.year}</div>
+        </div>
+      </div>
+    `).join('');
+        section.innerHTML = `<h2>${row.title}</h2><div class="row-track">${track}</div>`;
+        main.appendChild(section);
+      });
+    }
+
+    let currentItem = null;
+
+    function openItemModal(ri, ii) {
+      const item = ROWS[ri].items[ii];
+      currentItem = item;
+      document.getElementById('modalMedia').className = 'modal-media ' + (item.image || item.video ? '' : item.g);
+      document.getElementById('modalMedia').innerHTML = `<button class="modal-close" onclick="closeModal()">✕</button>` + mediaEl(item, true);
+      document.getElementById('modalTitle').textContent = item.title;
+      document.getElementById('modalMatch').textContent = item.match === "?" ? "" : item.match + " match";
+      document.getElementById('modalYear').textContent = item.year;
+      document.getElementById('modalCaption').textContent = item.caption;
+      document.getElementById('modalOverlay').classList.add('open');
+      triggerModalConfetti();
+    }
+
+    function openModal(type) {
+      if (type === 'hero') {
+        currentItem = { title: CONFIG.heroTitle, year: CONFIG.heroYear, caption: CONFIG.heroDescription, match: "100%", image: CONFIG.heroImage };
+        document.getElementById('modalMedia').className = 'modal-media ' + (CONFIG.heroImage ? '' : 'g1');
+        document.getElementById('modalMedia').innerHTML = `<button class="modal-close" onclick="closeModal()">✕</button>` + mediaEl(currentItem, true);
+        document.getElementById('modalTitle').textContent = CONFIG.heroTitle;
+        document.getElementById('modalMatch').textContent = "100% match";
+        document.getElementById('modalYear').textContent = CONFIG.heroYear;
+        document.getElementById('modalCaption').textContent = CONFIG.heroDescription;
+        document.getElementById('modalOverlay').classList.add('open');
+        triggerModalConfetti();
+      }
+    }
+
+    function closeModal() {
+      document.getElementById('modalOverlay').classList.remove('open');
+    }
+    function closeModalBg(e) {
+      if (e.target.id === 'modalOverlay') closeModal();
+    }
+
+    /* ── Apply CONFIG to hero + splash ── */
+    document.getElementById('heroTitle').textContent = CONFIG.heroTitle;
+    document.getElementById('heroYear').textContent = CONFIG.heroYear;
+    document.getElementById('heroDesc').textContent = CONFIG.heroDescription;
+    document.getElementById('splashLogo').textContent = CONFIG.splashInitials;
+
+    /* ── Hero Media: Video → Image → Slideshow ── */
+    (function setupHeroMedia() {
+      const hm = document.getElementById('heroMedia');
+
+      // 1. If a video file is set, use it as the hero
+      if (CONFIG.heroVideo) {
+        const vid = document.createElement('video');
+        vid.src = CONFIG.heroVideo;
+        vid.autoplay = true;
+        vid.muted = true;
+        vid.loop = true;
+        vid.playsInline = true;
+        vid.style.cssText = 'width:100%;height:100%;object-fit:cover;';
+        vid.addEventListener('canplay', () => vid.classList.add('loaded'));
+        hm.appendChild(vid);
+        return;
+      }
+
+      // 2. Build a beautiful photo slideshow from all your images
+      const slideshowImages = [
+        "059937AE-7396-423B-A754-5ED4A6856D6E.jpeg",
+        "636B7A20-9E16-4F4B-AC73-3B51D357E257.jpeg",
+        "C63FAF7F-7AAD-4388-835E-8AE53D0B8C80.jpeg",
+        "3E314BE7-E442-4CCA-BACD-EAAF0A24378F.jpg",
+        "2B7BFB77-083A-4A2F-82AC-7360172BD2E1.jpg",
+        "B67F7AC5-D2B8-4C12-ACF0-EF9467390856.jpeg",
+        "FA8EBC53-872A-4FD8-B9CF-468903D2168D.jpg",
+        "3320D7C6-EF88-4D41-878A-2657786FC085.jpeg"
+      ];
+
+      slideshowImages.forEach((src, i) => {
+        const slide = document.createElement('div');
+        slide.className = 'slide' + (i === 0 ? ' active' : '');
+        slide.style.backgroundImage = `url('${src}')`;
+        hm.appendChild(slide);
+      });
+
+      // auto-advance slideshow every 5 seconds
+      let current = 0;
+      const slides = hm.querySelectorAll('.slide');
+      setInterval(() => {
+        slides[current].classList.remove('active');
+        current = (current + 1) % slides.length;
+        slides[current].classList.add('active');
+      }, 5000);
+    })();
+
+    renderRows();
+
+    /* ── Splash intro ── */
+    const splash = document.getElementById('splash');
+    requestAnimationFrame(() => splash.classList.add('animate'));
+    setTimeout(() => splash.classList.add('hide'), 3000);
+
+    /* ── Header scroll state ── */
+    window.addEventListener('scroll', () => {
+      document.getElementById('siteHeader').classList.toggle('scrolled', window.scrollY > 40);
+    });
+
+    /* ── Escape closes modal ── */
+    document.addEventListener('keydown', (e) => { if (e.key === 'Escape') closeModal(); });
+
+    /* ── Background Music Logic ── */
+    const bgMusic = document.getElementById('bgMusic');
+    const musicToggle = document.getElementById('musicToggle');
+
+    function toggleMusic() {
+      if (bgMusic.paused) {
+        bgMusic.play();
+        musicToggle.innerHTML = "🎵 Mute Music";
+        musicToggle.classList.add('playing');
+        musicToggle.classList.remove('user-muted');
+      } else {
+        bgMusic.pause();
+        musicToggle.innerHTML = "🎵 Play Music";
+        musicToggle.classList.remove('playing');
+        musicToggle.classList.add('user-muted');
+      }
+    }
+
+    // Autoplay on first click anywhere
+    document.addEventListener('click', () => {
+      if (bgMusic.paused && !musicToggle.classList.contains('user-muted')) {
+        bgMusic.play().then(() => {
+          musicToggle.innerHTML = "🎵 Mute Music";
+          musicToggle.classList.add('playing');
+        }).catch(err => {
+          console.log("Autoplay blocked by browser");
+        });
+      }
+    }, { once: true });
+
+    function triggerModalConfetti() {
+      const container = document.getElementById('modalBox');
+      const colors = ['#E50914', '#f5c518', '#FF69B4', '#00F0FF', '#FF00FF'];
+      for (let i = 0; i < 40; i++) {
+        const p = document.createElement('div');
+        p.className = 'confetti-particle';
+        p.style.background = colors[Math.floor(Math.random() * colors.length)];
+        p.style.left = '50%';
+        p.style.top = '40%';
+        p.style.setProperty('--x', `${(Math.random() - 0.5) * 300}px`);
+        p.style.setProperty('--y', `${(Math.random() - 0.5) * 300 - 100}px`);
+        p.style.setProperty('--r', `${Math.random() * 360}deg`);
+        container.appendChild(p);
+        setTimeout(() => p.remove(), 1200);
+      }
+    }
+
+    // Intersection Observer to animate rows on scroll
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible');
+        }
+      });
+    }, { threshold: 0.1 });
+    document.querySelectorAll('.row').forEach(row => {
+      row.classList.add('fade-in-row');
+      observer.observe(row);
+    });
+  </script>
+</body>
+
+</html>
