@@ -724,6 +724,69 @@
       transform: scale(1.1);
     }
 
+    /* ── Modal nav arrows ── */
+    .modal-nav {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 44px;
+      height: 44px;
+      border-radius: 50%;
+      background: rgba(10, 10, 10, 0.75);
+      border: 1.5px solid rgba(255, 255, 255, 0.2);
+      color: #fff;
+      font-size: 1.3rem;
+      cursor: pointer;
+      z-index: 3;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: background 0.2s, transform 0.2s, opacity 0.2s, border-color 0.2s;
+      backdrop-filter: blur(4px);
+      -webkit-backdrop-filter: blur(4px);
+    }
+
+    .modal-nav:hover {
+      background: rgba(229, 9, 20, 0.85);
+      border-color: var(--red);
+      transform: translateY(-50%) scale(1.1);
+    }
+
+    .modal-nav:disabled {
+      opacity: 0.2;
+      cursor: default;
+      pointer-events: none;
+    }
+
+    .modal-nav-prev {
+      left: 14px;
+    }
+
+    .modal-nav-next {
+      right: 62px;
+      /* offset so it doesn't overlap the close button */
+    }
+
+    /* counter badge */
+    .modal-nav-counter {
+      position: absolute;
+      bottom: 12px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: rgba(10, 10, 10, 0.7);
+      backdrop-filter: blur(4px);
+      -webkit-backdrop-filter: blur(4px);
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      color: rgba(255, 255, 255, 0.75);
+      font-size: 0.72rem;
+      font-weight: 600;
+      letter-spacing: 1px;
+      padding: 4px 12px;
+      border-radius: 20px;
+      pointer-events: none;
+      z-index: 3;
+    }
+
     .modal-body {
       padding: 28px 36px 38px;
     }
@@ -1876,18 +1939,41 @@
     }
 
     let currentItem = null;
+    let currentRowIndex = -1;
+    let currentItemIndex = -1;
 
     function openItemModal(ri, ii) {
+      currentRowIndex = ri;
+      currentItemIndex = ii;
       const item = ROWS[ri].items[ii];
       currentItem = item;
+
+      const rowLen = ROWS[ri].items.length;
+      const hasPrev = ii > 0;
+      const hasNext = ii < rowLen - 1;
+
       document.getElementById('modalMedia').className = 'modal-media ' + (item.image || item.video ? '' : item.g);
-      document.getElementById('modalMedia').innerHTML = `<button class="modal-close" onclick="closeModal()">✕</button>` + mediaEl(item, true);
+      document.getElementById('modalMedia').innerHTML =
+        `<button class="modal-close" onclick="closeModal()">✕</button>` +
+        `<button class="modal-nav modal-nav-prev" onclick="navigateModal(-1)" ${hasPrev ? '' : 'disabled'} title="Previous (←)">&#8592;</button>` +
+        `<button class="modal-nav modal-nav-next" onclick="navigateModal(1)"  ${hasNext ? '' : 'disabled'} title="Next (→)">&#8594;</button>` +
+        `<span class="modal-nav-counter">${ii + 1} / ${rowLen}</span>` +
+        mediaEl(item, true);
+
       document.getElementById('modalTitle').textContent = item.title;
       document.getElementById('modalMatch').textContent = item.match === "?" ? "" : item.match + " match";
       document.getElementById('modalYear').textContent = item.year;
       document.getElementById('modalCaption').textContent = item.caption;
       document.getElementById('modalOverlay').classList.add('open');
       triggerModalConfetti();
+    }
+
+    function navigateModal(direction) {
+      if (currentRowIndex < 0) return;
+      const newIndex = currentItemIndex + direction;
+      if (newIndex >= 0 && newIndex < ROWS[currentRowIndex].items.length) {
+        openItemModal(currentRowIndex, newIndex);
+      }
     }
 
     function openModal(type) {
@@ -1976,8 +2062,13 @@
       document.getElementById('siteHeader').classList.toggle('scrolled', window.scrollY > 40);
     });
 
-    /* ── Escape closes modal ── */
-    document.addEventListener('keydown', (e) => { if (e.key === 'Escape') closeModal(); });
+    /* ── Keyboard: Escape closes modal; ArrowLeft/Right navigates ── */
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') { closeModal(); return; }
+      if (!document.getElementById('modalOverlay').classList.contains('open')) return;
+      if (e.key === 'ArrowLeft') { e.preventDefault(); navigateModal(-1); }
+      if (e.key === 'ArrowRight') { e.preventDefault(); navigateModal(1); }
+    });
 
     /* ── Background Music Logic ── */
     const bgMusic = document.getElementById('bgMusic');
